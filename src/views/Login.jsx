@@ -18,17 +18,17 @@ export default function RegistroForm() {
   const iniciarSesion = async () => {
     const urlServer = "http://localhost:3000";
     const endpoint = "/login";
-    const { email, password } = usuario;
+    //const { email, password } = usuario;
     try {
-      if (!email || !password) return alert("Email y password obligatorias");
+      //if (!email || !password) return alert("Email y password obligatorias");
       const { data: token } = await axios.post(urlServer + endpoint, usuario);
       alert("Usuario identificado con éxito 😀");
       localStorage.setItem("token", token);
-      setUsuario()
+      setUsuario();
       navigate("/perfil");
-    } catch ({ response: { data: message } }) {
-      alert(message + " 🙁");
-      console.log(message);
+    } catch (error) {
+      alert(" Ups! faltan datos 🙁");
+      console.log(error);
     }
   };
 

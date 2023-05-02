@@ -9,18 +9,16 @@ const getUsuario = async (email) => {
 };
 
 const verificarCredenciales = async (email, password) => {
-  const values = [email]; //contiene/captura el usuario desde la query (el cliente me la tiene que enviar)
-  const consulta = "SELECT * FROM usuarios WHERE email = $1"; //genera la consulta con el usuario obtenido anteriormente
+  const values = [email];
+  const consulta = "SELECT * FROM usuarios WHERE email = $1"; 
   const {
     rows: [usuario],
     rowCount,
-  } = await pool.query(consulta, values); // ejecuta la consulta y devuelve el objeto usuario usuario
+  } = await pool.query(consulta, values); 
 
-  const { password: passwordEncriptada } = usuario; // desestructura el objeto usuario para obtener la password encriptada desde la base de datos
-  const passwordEsCorrecta = bcrypt.compareSync(password, passwordEncriptada); // compara la contraseña encriptada y la del usuario
-
+  const { password: passwordEncriptada } = usuario; 
+  const passwordEsCorrecta = bcrypt.compareSync(password, passwordEncriptada);
   if (!passwordEsCorrecta || !rowCount)
-    //determina si es correcta o no y dependiendo de eso devuelve el token o lanza error
     throw {
       code: 401,
       message: "Email o contraseña incorrecta",
@@ -36,4 +34,4 @@ const registrarUsuario = async (usuario) => {
   await pool.query(consulta, values);
 };
 
-module.exports = { getUsuario, verificarCredenciales, registrarUsuario };
+module.exports = { getUsuario, registrarUsuario, verificarCredenciales };
